@@ -176,18 +176,15 @@ class ContactData extends React.Component {
     }
 }
 
-const mapStateToProps = state => {
-    return {
-        ings: state.burgerBuilder.ingredients,
-        price: state.burgerBuilder.totalPrice,
-        loading: state.order.isLoading,
-        token: state.auth.token,
-        userId: state.auth.userId
-    }
-}
-const mapDispatchToProps = dispatch => {
-    return {
-        onOrderBurger: (orderData, token) => dispatch(actions.purchaseBurger(orderData, token))
-    }
-}
+const mapStateToProps = state => ({
+    ings: state.burgerBuilder.ingredients,
+    price: state.burgerBuilder.totalPrice,
+    loading: state.order.isLoading,
+    token: state.auth.token,
+    userId: state.auth.userId
+})
+const mapDispatchToProps = dispatch => ({
+    onOrderBurger: (orderData, token) => dispatch(actions.purchaseBurger(orderData, token))
+
+})
 export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(ContactData, axios));

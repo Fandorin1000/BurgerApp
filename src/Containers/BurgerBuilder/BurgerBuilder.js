@@ -63,36 +63,37 @@ class BurgerBuilder extends React.Component {
     }
 
     render() {
+        const { isAuthenticated, onIngredientAdded, onIngredientRemoved, price, error, ings } = this.props
         const disabledInfo = {
-            ...this.props.ings
+            ...ings
         }
         for (let key in disabledInfo) {
             disabledInfo[key] = disabledInfo[key] <= 0;
 
         }
         let orderSummary = null;
-        let burger = this.props.error ? <p style={{ textAlign: "center" }}>Danger this Application has ERROR</p> : <Spinner />
-        if (this.props.ings) {
+        let burger = error ? <p style={{ textAlign: "center" }}>Danger this Application has ERROR</p> : <Spinner />
+        if (ings) {
             burger = (
                 <Auxiliary>
-                    <Burger ingredients={this.props.ings} />
+                    <Burger ingredients={ings} />
                     <BuildControls
-                        isAuth={this.props.isAuthenticated}
-                        addIngredient={this.props.onIngredientAdded}
-                        removeIngredient={this.props.onIngredientRemoved}
+                        isAuth={isAuthenticated}
+                        addIngredient={onIngredientAdded}
+                        removeIngredient={onIngredientRemoved}
                         disabled={disabledInfo}
-                        price={this.props.price}
-                        isPurchase={this.isPurchasedOrderHandler(this.props.ings)}
+                        price={price}
+                        isPurchase={this.isPurchasedOrderHandler(ings)}
                         showOrderModal={this.showModalHandler}
                     />
 
                 </Auxiliary>
             )
             orderSummary = <OrderSummary
-                ingredients={this.props.ings}
+                ingredients={ings}
                 cancelOrderInModal={this.backdropClosingModalHandler}
                 continueOrderInModal={this.continueOrderInModalHandler}
-                price={this.props.price} />
+                price={price} />
         }
         return (
             <Auxiliary>
@@ -108,21 +109,19 @@ class BurgerBuilder extends React.Component {
 
 }
 
-const mapStateToProps = state => {
-    return {
-        ings: state.burgerBuilder.ingredients,
-        price: state.burgerBuilder.totalPrice,
-        error: state.burgerBuilder.error,
-        isAuthenticated: state.auth.token !== null
-    }
-}
-const mapDispatchToProps = dispatch => {
-    return {
-        onIngredientAdded: (ingName) => dispatch(actions.addIngredient(ingName)),
-        onIngredientRemoved: (ingName) => dispatch(actions.removeIngredient(ingName)),
-        onInitIngredients: () => dispatch(actions.initIngredients()),
-        onInitPurchase: () => dispatch(actions.purchaseInit()),
-        onSetAuthRedirectPath: (path) => dispatch(actions.setAuthRedirectPath(path))
-    }
-}
+const mapStateToProps = state => ({
+    ings: state.burgerBuilder.ingredients,
+    price: state.burgerBuilder.totalPrice,
+    error: state.burgerBuilder.error,
+    isAuthenticated: state.auth.token !== null
+
+})
+const mapDispatchToProps = dispatch => ({
+    onIngredientAdded: (ingName) => dispatch(actions.addIngredient(ingName)),
+    onIngredientRemoved: (ingName) => dispatch(actions.removeIngredient(ingName)),
+    onInitIngredients: () => dispatch(actions.initIngredients()),
+    onInitPurchase: () => dispatch(actions.purchaseInit()),
+    onSetAuthRedirectPath: (path) => dispatch(actions.setAuthRedirectPath(path))
+
+})
 export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(BurgerBuilder, axios));

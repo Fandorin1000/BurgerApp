@@ -40,18 +40,13 @@ class Orders extends React.Component {
     }
 }
 
-const mapStateToProps = state => {
-    return {
-        orders: state.order.orders,
-        isLoading: state.order.isLoading,
-        token: state.auth.token,
-        userId: state.auth.userId
-    }
-}
-const mapDispatchToProps = dispatch => {
-    return {
-        onFetchOrders: (token, userId) => dispatch(actions.fetchOrders(token, userId)),
-
-    }
-}
+const mapStateToProps = state => ({
+    orders: state.order.orders,
+    isLoading: state.order.isLoading,
+    token: state.auth.token,
+    userId: state.auth.userId
+})
+const mapDispatchToProps = dispatch => ({
+    onFetchOrders: (token, userId) => dispatch(actions.fetchOrders(token, userId)),
+})
 export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(Orders, axios));

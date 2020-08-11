@@ -9,7 +9,7 @@ class OrderSummary extends React.Component {
             .map(ingrItem => {
                 return <li key={ingrItem}>
                     <span style={{ textTransform: "capitalize" }}>{ingrItem} </span>: {ingredients[ingrItem]}
-                </li >
+                </li>
             })
         return (
             <div className={classes.OrderSummary} >

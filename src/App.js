@@ -48,15 +48,12 @@ class App extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    isAuthenticated: state.auth.token !== null
-  }
-}
+const mapStateToProps = state => ({
+  isAuthenticated: state.auth.token !== null
+})
 
-const mapDispatchToProps = dispatch => {
-  return {
-    onTryAutoSignup: () => dispatch(actions.authCkeckState())
-  }
-}
+const mapDispatchToProps = dispatch => ({
+  onTryAutoSignup: () => dispatch(actions.authCkeckState())
+
+})
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
